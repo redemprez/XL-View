@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 64 64">
+  <title>XL View — controller companion</title>
+  <desc>Original vector artwork: three illuminated rotary controls above three faders on a graphite panel.</desc>
+  <rect x="2" y="2" width="60" height="60" rx="13" fill="#202327" stroke="#505b67" stroke-width="1.5"/>
+  <g fill="#111519" stroke-width="2.8" stroke-linecap="round">
+    <circle cx="16" cy="18" r="5.5" stroke="#18d7ff"/>
+    <circle cx="32" cy="18" r="5.5" stroke="#f226fe"/>
+    <circle cx="48" cy="18" r="5.5" stroke="#eceff2"/>
+  </g>
+  <path d="M16 18v-3 M32 18l2-2 M48 18l-2-2" fill="none" stroke="#eceff2" stroke-width="2" stroke-linecap="round"/>
+  <path d="M16 33v19 M32 33v19 M48 33v19" fill="none" stroke="#505b67" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="11" y="36" width="10" height="4.5" rx="1.5" fill="#18d7ff"/>
+  <rect x="27" y="45" width="10" height="4.5" rx="1.5" fill="#f226fe"/>
+  <rect x="43" y="34" width="10" height="4.5" rx="1.5" fill="#eceff2"/>
+</svg>

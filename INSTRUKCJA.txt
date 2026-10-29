@@ -1,0 +1,560 @@
+XL View 0.7.0 — podgląd i edytor Launch Control XL 3
+
+Interfejs jest po angielsku; nazwy presetów i kontrolek z importu zachowują oryginalną pisownię.
+
+URUCHAMIANIE
+Otwórz dist\XL View\XL View.exe. Przenosząc aplikację, kopiuj cały folder
+„XL View”, razem z podfolderem _internal. Nie wymaga instalacji Pythona.
+Alternatywa dla tego komputera: Uruchom.vbs uruchamia źródła przez Python 3.11.
+
+PODGLĄD
+Podłącz XL3 przez USB. Program automatycznie łączy pierwszy jednoznacznie wybrany
+kontroler z listy. Kliknij status MIDI w prawym dolnym rogu, aby otworzyć
+MIDI connection: wybierz urządzenie i użyj Connect, Disconnect albo Scan.
+Zielona dioda i Connected oznaczają połączenie, czerwona i Disconnected brak
+połączenia, a bursztynowa i Connecting… trwające łączenie. Ikona MIDI i strzałka
+wskazują otwierane menu. Przycisk X zamyka okno połączenia.
+Komunikaty operacji są po lewej stronie dolnego paska. Długi tekst jest skracany;
+najedź na niego, aby przeczytać całość. Pod nim pozostaje legenda wartości MIDI.
+Wyświetlacz slotu i trybu pokazuje też nazwę ostatnio poruszonej lub wybranej
+kontrolki oraz jej ostatnią odebraną wartość MIDI. Od 0.5.10 jest niższy dla
+krótkich nazw i pokazuje pomiędzy nazwą a wartością typ/numer komunikatu oraz
+kanał (lub Global). CC/NRPN podają Absolute · 7-bit/14-bit albo Relative · raw;
+CC14 pokazuje oba numery tworzące parę CC. Note opisuje Velocity / Off, a Program Change
+podaje zakres i Program number. Skróty klawiaturowe, nieznane przypisania
+i Unassigned mają osobne opisy. Pusty odczyt ukrywa te szczegóły.
+Wyświetlacz zastępuje dawny blok szczegółów
+w lewym dolnym rogu; numer gałki i rzędu pozostaje w panelu edycji.
+Długie nazwy są zawijane i zwiększają wysokość wyświetlacza tylko w razie potrzeby,
+bez zmiany siatki kontrolek. „—” oznacza brak odebranej wartości, a „rel” przed
+liczbą oznacza surową wartość względnego CC. Najedź na nazwę lub wartość,
+aby odczytać pełne przypisanie i dodatkowe wyjaśnienia. Ruch innej kontrolki
+aktualizuje wyświetlacz bez zmiany kontrolki wybranej w panelu edycji.
+Zmiana trybu usuwa poprzedni odczyt. Są to wartości odebrane z MIDI,
+a nie potwierdzenie aktualnego stanu parametru wtyczki.
+Na dole okna widać 16 kafelków: sloty 1–15 z nazwami z pamięci urządzenia
+oraz stały tryb 16 Default.
+Obramowanie wskazuje slot wybrany do odczytu, edycji i wysyłania. Napis LIVE
+oznacza aktywny slot sprzętu; może znajdować się na innym przycisku.
+Kliknięcie slotu nie zmienia trybu na kontrolerze. Nazwy są odczytywane w tle
+po połączeniu i aktualizowane po odczycie lub potwierdzonym zapisie slotu.
+„Reading…”, „Not read” i „Read failed” oznaczają stan odczytu; offline nazwy
+są oznaczone jako ostatnio odczytane. Zlecony odczyt lub zapis ma pierwszeństwo
+po zakończeniu bieżącego odczytu nazwy w tle.
+„Follow controller” znajduje się pod ikoną koła zębatego Settings, w zakładce General. Domyślnie
+jest włączone, a ustawienie jest zapamiętywane. Śledzenie pobiera aktywny tryb
+przez port DAW. Zmiana Custom Mode na sprzęcie aktualizuje panel, jeśli nie ma
+niewysłanych zmian. Program nie zmienia trybu sprzętu. Ręczny wybór slotu
+nie zmienia ustawienia Follow controller; „Resume following” wraca do aktywnego.
+„Read again” pobiera aktualne dane slotu, np. po edycji w Components.
+„Import mode from file…” w Preset library otwiera plik .syx offline bez wysyłania do sprzętu.
+Wspierany odczyt i zapis przypisań: Custom Modes 1–15. Kafelek 16 Default jest
+nieaktywnym wskaźnikiem stałego trybu fabrycznego: FIXED albo LIVE, gdy jest
+aktywny na kontrolerze. Nie można go wybrać do edycji ani zapisu. Podpowiedź
+wyjaśnia ograniczenie. Śledzenie trybu 16 bez niewysłanych zmian usuwa cel edycji
+i poprzednie przypisania, pokazując informację tylko do odczytu i pustą siatkę.
+Program nie odczytuje ani nie odtwarza fabrycznej mapy trybu 16. Niewysłany
+projekt pozostaje zachowany. Dla trybu 16 Resume following jest ukryte.
+Bez wybranego celu przycisk wysyłania ma etykietę Send entire mode.
+
+WYGLĄD NAZW KONTROLEK
+Otwórz Settings → Control labels. Ustawienia dotyczą nazw pod wszystkimi gałkami,
+suwakami i przyciskami we wszystkich trybach. Zmiany widać od razu i są zapamiętywane
+po zamknięciu programu; nie trzeba używać Save preset ani wysyłać ich do kontrolera.
+Font wybiera zainstalowaną czcionkę, Scale ustawia rozmiar 75–200% suwakiem lub
+wpisaną wartością, a Bold labels włącza pogrubienie. Text color oferuje osiem
+próbek i Custom… do wyboru własnego koloru. Zaznacz Label background, aby włączyć
+tło etykiet i odblokować jego próbki oraz Custom…. Preview pokazuje oba typy etykiet.
+Wybrany kolor tekstu obejmuje również Unassigned. Reset label style przywraca
+Segoe UI, 100%, zwykłą grubość, automatyczne kolory aktywnych i nieprzypisanych
+kontrolek oraz brak tła. Close zamyka ustawienia, zachowując wprowadzone zmiany.
+Nazwy zajmują najwyżej dwa wiersze; nadmiar tekstu kończy się wielokropkiem.
+Najedź na etykietę, aby przeczytać pełną nazwę. Większa czcionka może zwiększyć
+minimalną wysokość okna, aby zmieścić wszystkie rzędy kontrolek. Pozostałe napisy
+interfejsu zachowują swój wygląd. Te ustawienia nie zmieniają presetu, pliku .syx,
+niewysłanych edycji ani odbioru MIDI. Dotychczasowe opcje działania i MIDI diagnostics
+znajdziesz w Settings → General.
+
+EDYCJA JEDNEJ KONTROLKI
+Kliknij gałkę, suwak lub przycisk. Po prawej otworzy się panel edycji.
+Zmień nazwę, typ komunikatu, kanał, numer CC/NRPN/nuty, zakres lub działanie.
+Pola liczbowe mają zsynchronizowany suwak poziomy i możliwość dokładnego wpisania
+wartości: numer CC/NRPN/nuty, Minimum / OFF value, Maximum / ON value oraz Note velocity.
+Zakres zależy od typu komunikatu; wartości 14-bit dochodzą do 16383.
+Gałki i przyciski mają widoczne próbki LED color; przyciski także LED color when ON.
+Kliknij próbkę koloru; znacznik wyboru pokazuje bieżącą opcję. Podpowiedź zawiera
+nazwę i numer koloru. Przyciski oferują 56 kolorów, gałki paletę jaskrawą, biel
+i wygaszenie. Dodatkowe kolory z importu pozostają dostępne.
+Opcje zależą od fizycznej kontrolki i typu komunikatu. Suwaki nie mają kolorowych LED.
+Nazwy kontrolek: do 31 znaków; nazwa trybu: do 16. XL używa znaków ASCII,
+dlatego pola nazw nie przyjmują polskich liter. Kolory odpowiadają palecie Components.
+Zmiany są od razu widoczne w projekcie, ale nie trafiają automatycznie do urządzenia.
+Edycja wstrzymuje śledzenie, aby zmiana trybu na sprzęcie nie zastąpiła projektu.
+Kliknij dużą nazwę trybu, aby zmienić ją bezpośrednio w wyświetlaczu.
+Enter lub opuszczenie pola zatwierdza nazwę, Escape anuluje. Otwarte pole nazwy
+również wstrzymuje śledzenie. Zmiana nazwy trafia do XL wyłącznie przy wysłaniu
+całego trybu; wysłanie jednej kontrolki pozostawia nową nazwę niewysłaną.
+Ruch kontrolera nie przełącza wybranej kontrolki w panelu edycji.
+„Undo edit” w prawym górnym rogu, obok Changes, przywraca poprzedni lokalny
+stan projektu (do 100 kroków). Od 0.6.1 przycisk jest widoczny tylko przy otwartym
+panelu edycji pojedynczej kontrolki lub grupy. Zamknięcie panelu ukrywa przycisk,
+ale zachowuje lokalne zmiany i historię cofania. Po ponownym otwarciu przycisk
+wraca; jego aktywność nadal zależy od historii i dotychczasowych blokad.
+Od 0.6.2 Changes również jest widoczne tylko przy otwartym panelu edycji, obok Undo edit.
+Podpowiedź wyjaśnia, że nie cofa zapisu już wysłanego do kontrolera.
+
+ZAZNACZANIE, KOPIOWANIE I EDYCJA GRUPY (0.5.5)
+Zwykłe kliknięcie wybiera jedną kontrolkę. Ctrl+klik dodaje ją do zaznaczenia
+albo usuwa. Shift+klik wybiera ciągły zakres od punktu początkowego do klikniętej
+kontrolki, razem z oboma końcami: od lewej do prawej, potem przez kolejne rzędy.
+Ctrl+Shift+klik dodaje taki zakres do obecnego zaznaczenia. Aby zaznaczyć rząd,
+kliknij pierwszą kontrolkę, a następnie Shift+klik ostatnią.
+Zaznaczenie otwiera istniejący prawy panel; nie ma osobnego paska zaznaczania
+ani okna Edit selected. Grupa ma nagłówek Multiple controls selected, liczbę
+kontrolek i wskazówkę dotyczącą projektu roboczego. Wszystkie wybrane kontrolki
+mają jasnoniebieskie obramowanie. Ruch MIDI nie zmienia zaznaczenia.
+Panel pokazuje tylko wspólnie obsługiwane pola: kanał MIDI, kolor LED, kolor ON
+oraz minimum i maksimum. Kolor ON wymaga samych przycisków; grupa z suwakiem
+nie udostępnia koloru LED. Zakres wymaga bezwzględnych CC, NRPN lub Program Change;
+nie obejmuje nut ani relative CC. Grupa zawierająca kontrolkę nieprzypisaną,
+nieznaną lub skrót klawiaturowy pokazuje wyjaśnienie bez pól wspólnej edycji.
+Mixed przy etykiecie oznacza różne wartości. Lista pokazuje Mixed, pole liczbowe
+jest puste z podpowiedzią Mixed, a w palecie żadna próbka nie jest zaznaczona.
+Zmiana pola od razu trafia do wszystkich wybranych kontrolek w lokalnym projekcie.
+Zmienia się wyłącznie dotknięte pole; pozostałe, także Mixed, pozostają bez zmian.
+Nie zaznaczaj dodatkowych pól wyboru i nie szukaj Apply: edycja działa bez nich.
+Niepoprawna zmiana jest odrzucana w całości i otrzymuje wyjaśnienie.
+Copy control / Copy selected oraz Paste control / Paste to selected są w prawym
+panelu. Jedną skopiowaną kontrolkę można wkleić do jednej lub wielu. Dla kilku
+skopiowanych kontrolek wybierz dokładnie tyle samo celów. Kopiowanie i wklejanie
+używa fizycznej kolejności od lewej do prawej przez kolejne rzędy, niezależnie
+od kolejności klikania. Każda para źródło–cel musi mieć ten sam rodzaj: gałka,
+suwak lub przycisk. Nieznanej definicji nie można bezpiecznie wkleić.
+Błąd dowolnej pary odrzuca całe wklejenie. Wklejenie i przyjęta zmiana grupowa
+są odwracalne przez Undo edit, które zachowuje grupowe zaznaczenie.
+Te operacje nie wysyłają zmian do XL. W grupie przycisk wysyłania pojedynczej
+kontrolki jest ukryty. Wysyłanie całego trybu pozostaje na dole prawego panelu.
+Numer slotu wskazuje przycisk wysyłania; Changes pozwala wcześniej sprawdzić zmiany.
+
+PRZEGLĄD ZMIAN (0.5.11)
+Changes na górnym pasku obok Undo edit pokazuje tabelę Control / Setting / Last read / Draft.
+Porównanie dotyczy ostatniego odczytu, nie odczytu wykonanego w chwili otwarcia
+tabeli. Bez znanego punktu odniesienia pojawia się Not read.
+W Settings opcja „Preview changes before sending” jest domyślnie wyłączona,
+a jej stan jest zapamiętywany po ponownym uruchomieniu. Dotyczy wysyłania
+pojedynczej kontrolki oraz całego trybu. Gdy jest wyłączona, Send od razu
+rozpoczyna dotychczasową procedurę zapisu: zapis projektu do biblioteki,
+świeży odczyt slotu, kopię poprzedniego stanu, wysłanie i weryfikację odczytem.
+Ręczny podgląd przez Changes pozostaje dostępny przy otwartym panelu edycji, niezależnie od tej opcji.
+Po włączeniu opcji Send najpierw otwiera Review changes z numerem slotu,
+zakresem i wartościami. Send control albo Send entire mode rozpoczyna zapis;
+Cancel wraca do projektu bez wysyłania. Wysyłanie jednej kontrolki nie wysyła
+zmiany nazwy trybu ani innych kontrolek; wysłanie całego trybu zastępuje wszystkie
+przypisania i nazwę. Podczas przeglądu śledzenie nie zmieni celu. Zmiana szkicu,
+slotu, wybranej kontrolki lub sesji połączenia blokuje zapis z tego przeglądu;
+trzeba otworzyć go ponownie. Świeży odczyt, kopia i weryfikacja pozostają
+częścią faktycznego zapisu w obu ustawieniach.
+
+ODZYSKIWANIE PROJEKTU ROBOCZEGO (0.5)
+Niewysłany projekt jest automatycznie zachowywany lokalnie po 450 ms od ostatniej
+zmiany. Zawiera punkt odniesienia, slot i nazwę urządzenia. Przy następnym starcie
+pasek pokazuje Recover draft i Discard recovery. Odzyskanie otwiera projekt roboczy;
+nie wysyła go do XL. Sprawdź cel i zmiany przed osobnym wysłaniem. Discard recovery
+usuwa tę kopię odzyskiwania. Ta funkcja nie zastępuje własnych wersji Save preset.
+Plik znajduje się w drafts/recovery.json pod katalogiem danych presetów;
+w wersji instalowanej: %LOCALAPPDATA%\XL View\presets\drafts\recovery.json.
+
+DIAGNOSTYKA (0.5)
+Status MIDI → Diagnostics lub Settings → MIDI diagnostics pokazuje urządzenie,
+połączenie, liczbę odebranych
+komunikatów, czas od ostatniego, aktywny slot i cel edycji oraz stan ponawiania.
+Lista przechowuje do 400 ostatnich zdarzeń MIDI i połączenia. Clear log czyści
+listę, Export log zapisuje raport tekstowy w wybranym miejscu. Same otwarcie
+i eksport diagnostyki nie wysyłają zmian do urządzenia. Settings pokazuje także
+wersję aplikacji i platformę Windows.
+
+WYSŁANIE ZMIAN DO XL
+W dolnym banku wybierz docelowy slot 1–15; obramowanie wskazuje cel wysyłania.
+„Send control to slot…” w prawym panelu zapisuje tylko wybraną kontrolkę.
+Domyślnie Send rozpoczyna zapis od razu. Włączenie w Settings opcji
+„Preview changes before sending” dodaje wcześniej przegląd i potwierdzenie.
+Program odczytuje aktualny slot, nanosi tę jedną zmianę i przesyła wymagane strony
+trybu. Pozostałe kontrolki i nazwa istniejącego slotu pozostają bez zmian.
+Inne zmiany w projekcie zostają do osobnego wysłania. Jeżeli wybrana kontrolka
+zmieniła się w XL od odczytu, zapis jest zatrzymany z informacją o konflikcie.
+„Send mode to slot…” jest na stałe na dole prawego panelu, pod wysyłaniem
+pojedynczej kontrolki i poza przewijaną listą pól. Zastępuje wybrany slot
+całością projektu, także jego nazwą. Pod przyciskiem pozostaje wskazówka
+o zastąpieniu slotu i automatycznej kopii. W lewym panelu nie ma już wysyłania.
+Przy zaznaczonej grupie znika tylko przycisk wysyłania jednej kontrolki.
+Przed wysłaniem projekt trafia do biblioteki, a poprzedni stan slotu do kopii.
+Po wysłaniu program odczytuje slot i porównuje go z oczekiwanym wynikiem.
+Po potwierdzonym zapisie całego trybu prawy panel pozostaje otwarty z tą samą
+kontrolką lub grupą, punktem początkowym zaznaczenia i pozycją przewijania.
+Rozmiar okna i obszaru kontrolera nie zmienia się. Potwierdzony odczyt staje się
+nowym punktem odniesienia; znika stan lokalnych zmian i czyści się historia Undo.
+Można kontynuować edycję w tym samym panelu. Wartości MIDI nadal działają
+dla aktywnego slotu i zgodnych przypisań. Sam koniec wysyłania przy otwartym
+panelu nie przełącza widoku na inny aktywny slot; służy do tego Resume following.
+Ręczny wybór slotu lub wczytanie pliku nadal może zastąpić widok i zaznaczenie.
+Poczekaj na komunikat potwierdzenia. Błąd zapisu nie oznacza, że XL pozostał
+niezmieniony: przy przerwanym transferze użyj kopii sprzed zapisu i wyślij cały tryb.
+Nie edytuj tego samego slotu równocześnie w Components podczas transferu.
+
+PRESETY I NOWE TRYBY
+W „Preset library” przycisk „New mode” tworzy pusty układ; kliknij kontrolki
+i wybierz ich przypisania. Preset bez wybranego celu można przypisać do slotu
+przyciskiem w dolnym banku bez zastępowania jego projektu.
+„Save preset” zapisuje CAŁY lokalny tryb jako wersję .syx w bibliotece.
+Jeżeli zawartość jest identyczna z ostatnią wersją o dokładnie tej samej nazwie,
+program zachowuje istniejący plik zamiast tworzyć duplikat.
+„Preset library” ma numerowane, oddzielone wiersze: nazwa, liczba wersji i data.
+Identyczne nazwy tworzą jeden wiersz; wielkość liter w nazwie ma znaczenie dla
+łączenia, lecz wyszukiwanie jej nie rozróżnia. Wybierz wiersz, a potem „Version”:
+„Latest” to najnowsza wersja, pozostałe pozycje wskazują starsze daty zapisu.
+„My presets” udostępnia maksymalnie pięć najnowszych wersji według daty pliku.
+Starsze pliki trafiają do presets\archive\library, bez usuwania; dotyczy to
+również porządkowania dotychczasowej biblioteki przy jej otwarciu.
+Osobna kategoria „Slot backups before writing” zawiera automatyczne kopie
+urządzenia i nie ma limitu pięciu wersji. „Load for editing” wczytuje wybraną
+wersję lokalnie. Uszkodzone pliki są widoczne, lecz nieaktywne; szczegóły błędu
+są w podpowiedzi.
+Wczytanie presetu nie wysyła go do XL. Zapis lokalny również nie zmienia sprzętu.
+Zapis lokalny nie usuwa stanu niewysłanych zmian ani nie wznawia śledzenia.
+Przed zastąpieniem projektu z niewysłanymi lub niezapisanymi zmianami program
+proponuje Save, Discard lub Cancel. Save zachowuje kopię w bibliotece i pozwala
+przejść dalej; nie wysyła zmian do urządzenia.
+„Import from XL” odczytuje na nowo wszystkie Custom Modes 1–15 do biblioteki.
+Nie zapisuje niczego w kontrolerze i nie odczytuje stałego trybu 16. Postęp
+pokazuje bieżący slot, nowe wersje i niezmienione presety. „Cancel import” lub
+zamknięcie biblioteki zatrzymuje przyjmowanie kolejnych wyników; ukończone
+importy pozostają. Zmiana połączenia również zatrzymuje import. Nieudane sloty
+są wymienione na końcu; szczegóły znajdują się w podpowiedzi komunikatu.
+Import nie zastępuje bieżącego szkicu ani jego odebranych wartości. Otwarta
+biblioteka chwilowo wstrzymuje automatyczne przechodzenie za kontrolerem,
+lecz nadal odbiera MIDI. Zamknięcie lub odrzucenie biblioteki wznawia Follow,
+jeśli jest połączenie i brak oczekujących zmian; poprawne wczytanie zachowuje
+wybrany szkic w edytorze. Ustawienie Follow nie jest zmieniane.
+„Send to active slot NN” wysyła wersję wybraną w bibliotece do slotu aktywnego
+NA KONTROLERZE, wskazanego w komunikacie celu. Może to być inny slot niż
+zaznaczony wcześniej w dolnym banku. Najpierw działa ochrona bieżącego szkicu
+Save / Discard / Cancel, potem wersja trafia do edytora. Zmiana aktywnego slotu
+lub połączenia przed rozpoczęciem wysyłania przerywa akcję bez wysyłki.
+Opcja Preview changes before sending nadal obowiązuje. Jej anulowanie
+pozostawia wybrany preset w edytorze i informuje, że nic nie wysłano.
+Normalna wysyłka wykonuje świeży odczyt celu, kopię zapasową, zapis i odczyt
+weryfikacyjny. Bez połączenia, znanego aktywnego slotu lub w stałym trybie 16
+przycisk jest nieaktywny, a komunikat wyjaśnia powód.
+„Export current mode…” w Preset library, obok Import mode from file…, zapisuje
+otwarty tryb z lokalnymi zmianami do pliku .syx w wybranym miejscu. Podpowiedź
+pod przyciskami podaje nazwę eksportowanego trybu. Jest to stan z chwili otwarcia
+biblioteki; zaznaczenie zapisanego presetu na liście nie zmienia celu eksportu.
+Bez otwartego trybu eksport jest nieaktywny. Wynik albo angielski komunikat błędu
+pojawia się w bibliotece, która pozostaje otwarta. Błąd zaleca wybór innego folderu
+lub nazwy pliku; szczegóły są w podpowiedzi dolnego komunikatu. Anulowanie wyboru miejsca
+jest ciche. Eksport zachowuje stan niezapisanych i niewysłanych zmian, nie tworzy
+wersji w bibliotece i nie wysyła MIDI. Zastępuje dawny przycisk Export .syx po lewej.
+Aby wczytać przypisania z pliku
+Launch Control XL 3 .syx, otwórz Preset library → Import mode from file….
+Poprawny import zamyka bibliotekę i otwiera File preview · hardware unchanged do lokalnej
+edycji. Nic nie jest wysyłane do XL; Save preset zachowuje kopię w bibliotece.
+Anulowanie wyboru pliku pozostawia obecny tryb i otwartą bibliotekę bez błędu.
+Niepoprawny plik również zachowuje tryb; rzeczywisty błąd jest widoczny
+czerwonym tekstem w bibliotece. Import zastępuje dawny przycisk Open .syx.
+W tej instalacji biblioteka jest w launch-control-viewer\presets\library,
+a kopie w launch-control-viewer\presets\backups. Nowe wersje mają datowane pliki;
+powtórzenie niezmienionej ostatniej wersji nie tworzy kolejnego pliku.
+Przy przenoszeniu samodzielnego folderu EXE biblioteka powstaje w jego folderze presets;
+skopiuj również swoje presety, jeśli chcesz je przenieść na inny komputer.
+Obsługiwane definicje: CC 7/14 bit, NRPN 7/14 bit, przyciski Note/Program Change/
+skrót klawiaturowy, gałki relative CC. Obsługa relative wymaga zgodnego firmware XL.
+
+WARTOŚCI
+Gałki, suwaki i przyciski CC reagują na MIDI odebrane z głównego portu XL3.
+„—” oznacza, że wartości jeszcze nie odebrano. Stan wartości jest czyszczony
+przy zmianie trybu, rozłączeniu i błędzie, aby nie pokazywać starego pomiaru.
+Kliknięcie kontrolki wyświetla jej numer CC, kanał, nazwę i ostatnią wartość.
+Tab oraz Enter/Spacja pozwalają wybrać kontrolkę bez myszy.
+Gdy kilka kontrolek wysyła identyczne CC na tym samym kanale, reagują wszystkie:
+sam komunikat MIDI nie pozwala wskazać, którą fizycznie poruszono.
+Wersja 0.5 dekoduje CC 7/14 bit, NRPN 7/14 bit, Note oraz Program Change.
+Wartości 7-bit mają zakres 0–127, a 14-bit 0–16383. Note pokazuje velocity;
+Note Off i Note On z velocity 0 pokazują zero. Program Change pokazuje odebrany
+numer programu pasujący do zakresu przypisania. Rozdzielony komunikat 14-bit
+może najpierw pokazać starsze siedem bitów z zerową częścią młodszą, po czym
+uaktualnić wartość po jej odebraniu. Relative CC pokazuje „rel” i surową wartość
+komunikatu, bez wskazówki udającej bezwzględną pozycję parametru.
+Nieznane definicje z importu są zachowywane bez zmiany ich danych.
+Podgląd slotu innego niż aktywny nie pokazuje ruchów aktywnego trybu.
+Od 0.5.8 Copy/Paste, edycja grupowa, Undo, zmiana nazwy, kolorów i zapis
+do biblioteki nie zatrzymują odbioru wartości. Follow może być wstrzymany
+przez lokalne zmiany, a wartości nadal działają dla aktywnego slotu.
+Tylko kontrolka o zmienionym adresie MIDI (np. CC, kanał, typ lub relative)
+czeka z podglądem do wysłania przypisania. Pozostałe kontrolki reagują dalej.
+Import, odzyskany szkic lub ponowne połączenie mogą wykonać dodatkowy odczyt
+aktywnego slotu, bez zapisu i bez zastępowania szkicu. Po tym odczycie wartości
+są pokazywane tylko dla przypisań zgodnych z faktyczną mapą XL.
+Po niepotwierdzonym zapisie aplikacja próbuje odczytać mapę do podglądu,
+ale nie ponawia zapisu ani nie uznaje błędnego zapisu za udany.
+MIDI diagnostics rozróżnia połączenie od stanu feedbacku i pokazuje liczbę
+zmienionych przypisań oczekujących na wysłanie.
+
+FEEDBACK Z PLUGINU
+To ostatnia wartość wysłana przez kontroler, nie odczyt aktualnego parametru D-50.
+Zmiana presetu lub suwaka myszką w pluginie nie musi wysyłać MIDI do tej aplikacji.
+Synchronizacja zwrotna z REAPER-em/pluginem wymaga osobnej integracji.
+
+OKNO
+Okno można skalować. Domyślny rozmiar to 1260×980, minimum 940×900. Edytor ma stałą
+szerokość 340 pikseli; otwarcie dodaje 356 pikseli wraz z odstępem, zachowując
+szerokość kontrolera. Minimum z edytorem to 1296×900. Wybór kolejnej kontrolki
+nie powiększa okna ponownie. Ikona X (Close editor) zamyka edytor i odejmuje
+dodaną szerokość. Panele boczne przewijają się niezależnie; układ zachowuje kolejność.
+Dolny bank zawsze ma dwa pełne rzędy po osiem kafelków. Szerokość bazowa
+nie obejmuje dodanego edytora, więc jego otwarcie nie zmienia układu banku.
+Przy szerokości bazowej co najmniej 1150 pikseli kafelki mają 58 pikseli
+wysokości, poniżej tego progu 42; wszystkie sześć rzędów kontrolek
+pozostaje widoczne; od wersji 0.5.5 nie ma dodatkowego paska zaznaczania.
+Ikona pinezki (Always on top) przełącza pozostawanie okna na wierzchu. Aktywną
+opcję wyróżnia jasnoniebieska pinezka. Rozmiar, pozycja i ta opcja są zapamiętywane.
+
+POŁĄCZENIE
+Program korzysta z głównego portu LCXL3 oraz drugiego portu DAW. Nie używa wyjść DIN.
+Jeżeli port DAW jest zajęty, możliwy jest ręczny podgląd slotu bez automatycznego
+rozpoznawania aktywnego trybu. Zwolnij właściwy port w innym programie, jeśli
+sterownik nie pozwala kilku aplikacjom korzystać z niego równocześnie.
+Nie zmieniaj konfiguracji REAPER-a, jeśli obecne połączenie działa.
+„Reconnect automatically” w Settings jest domyślnie włączone i zapamiętywane.
+Po przerwaniu połączenia program ponawia próby z rosnącym odstępem 2–30 sekund.
+Kliknięcie Disconnect wstrzymuje ponawianie; Connect rozpoczyna je ponownie.
+Ponowne połączenie nigdy nie ponawia zapisu do XL. Po nieudanym zapisie sprawdź
+stan slotu przed osobnym, świadomym wysłaniem zmian.
+Program może włączyć przejściowe raportowanie funkcji kontrolera (Feature Controls),
+aby odczytać jego tryb. Nie włącza DAW Mode, nie wysyła nut, CC muzycznych,
+ani Program Change. Custom Modes zapisuje wyłącznie po użyciu przycisku wysyłania.
+
+ROZWÓJ
+lcxl/protocol.py: parser i model trybu; zachowuje oryginalne ramki.
+lcxl/transport.py: transport Windows MIDI; wyodrębniona warstwa bez Qt.
+lcxl/device.py: komunikacja w osobnym wątku, odczyt, zapis i weryfikacja.
+lcxl/ui.py, lcxl/editor.py: podgląd, projekt roboczy i panel edycji.
+lcxl/slots.py: dolny bank slotów i edycja nazwy trybu w wyświetlaczu.
+lcxl/library.py: lokalne wersje presetów i kopie.
+Testy: python -m pytest tests -q
+Budowanie: python -m PyInstaller --noconfirm "XL View.spec"
+Używaj pliku spec: dołącza paletę i zapobiega dołączeniu niezgodnego ICU z innych
+programów obecnych w PATH. Pakiet korzysta z systemowego ICU Windows.
+
+WERYFIKACJA
+Testy parsera wykorzystują rzeczywisty eksport Components i odczyt slotu 5.
+Na podłączonym XL3 potwierdzono otwarcie obu portów, odczyt 48 kontrolek z D50 Perform
+oraz odpowiedź o aktywnym Custom Mode 5. Działające okno na pulpicie pokazało
+odebrane wartości CC pokręteł i suwaków. Nie wykonano pełnego testu wszystkich
+kontrolek, fizycznego przełączania trybów ani feedbacku z pluginu.
+33 testy automatyczne przeszły, w tym zapis wersji, scalanie jednej kontrolki,
+wykrywanie konfliktów i błędnego odczytu po zapisie. Sprawdzono render panelu
+edycji i biblioteki w dużym i małym oknie oraz stany błędów.
+Dla poprawki interfejsu 0.3 sprawdzono angielskie etykiety, próbki kolorów, suwaki
+liczbowe oraz otwieranie i zamykanie edytora przy 1616×920 i 1296×780. Ocena: SHIP,
+bez istotnych problemów. Te testy interfejsu nie wykonywały zapisu do sprzętu.
+Na fizycznym XL3 zmieniono nazwę i kolor pierwszej gałki w slocie 5, potwierdzono
+odczytem zachowanie pozostałych 47 kontrolek, a następnie przywrócono cały oryginalny
+D50 Perform i również sprawdzono odczyt. Wynik: review\hardware-write-verification.json.
+Pozostałe typy komunikatów zweryfikowano programowo; nie przetestowano ich wszystkich
+fizycznie ani z docelowymi instrumentami.
+Po poprawce bibliotek pakietu potwierdzono uruchomienie EXE z udziału sieciowego,
+połączenie z LCXL3, odczyt D50 Perform ze slotu 5, otwarcie prawego panelu gałki
+oraz obecność zapisanego D50 Perform w bibliotece gotowego EXE.
+
+ŹRÓDŁA PROTOKOŁU
+https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_3_programmer_s_reference_guide-pdf_en.pdf
+https://midi.guide/static/js/launch-control-sysex.fe3ee61e5dac.js
+Kodowanie zapisu porównano z publicznym kodem Components 1.72.5:
+https://components.novationmusic.com/assets/main-D3lNZfPT.js
+Zwłaszcza kolejność bajtów wartości 14-bit pochodzi z Components, nie midi.guide.
+Rzeczywiste eksporty i odpowiedzi MIDI z tej sesji w tests/fixtures.
+
+ZALEŻNOŚCI
+Python, PySide6 / Qt (LGPLv3 lub licencja komercyjna), Shiboken6, PyInstaller.
+Aplikacja jest lokalnym projektem użytkownika; nie jest produktem Novation.
+
+POPRAWKA ODSWIEZANIA PO ZAPISIE
+Po potwierdzonym Send control lub Send entire mode podgląd wartości wznawia się
+dla aktywnego slotu bez włączania Follow controller. Inne, niewysłane zmiany
+pozostają w projekcie; wartości są pokazywane dla kontrolek zgodnych z odczytem
+po zapisie. Zmiana aktywnego slotu wstrzymuje podgląd do powrotu do tego slotu.
+
+PRZELACZANIE SLOTOW
+Wybrany przycisk dolnego banku wskazuje wspólny cel odczytu, edycji i Send.
+LIVE pokazuje osobno aktywny slot urządzenia. Wartości MIDI są odbierane
+także przy wyłączonym Follow controller, jeśli odczytany slot jest aktywny
+na urządzeniu. Wybór slotu w aplikacji nie przełącza trybu na sprzęcie.
+
+WERYFIKACJA DOLNEGO BANKU SLOTÓW
+Przeszło 48 testów automatycznych. Ocena interfejsu: SHIP; obie zgłoszone poprawki
+zostały zamknięte. Dziewięć zrzutów .impeccable/review/slots-*.png wykorzystuje
+dane testowe i obejmuje duże i małe okno, edytor, nazwę, niewysłane zmiany,
+offline, ustawienia i bibliotekę. Nie stanowią testu fizycznego urządzenia.
+Osobno uruchomiono gotowy EXE i potwierdzono połączenie z LCXL3 1 MIDI oraz
+odczyt wszystkich 15 rzeczywistych nazw. Początkowo slot 5 D50 Perform był
+wybrany i LIVE; później po wyborze slotu 1 Fury800 przez użytkownika slot 5
+nadal był LIVE. Dowód: review/slots-release/verification.json. Ta weryfikacja
+nie zapisywała danych do XL i nie obejmowała ruchu fizycznych kontrolek.
+
+
+WERYFIKACJA FEEDBACKU 0.5.8
+Przeszedł pełny zestaw 92 testów, a po ostatnich zmianach diagnostyki
+i zamykania portów dodatkowo 37 testów feedbacku oraz operacji edytora.
+Sprawdzono Copy/Paste, grupy, Undo, kosmetyczne i rzeczywiste zmiany MIDI,
+zapis do biblioteki, zmianę slotu, import, powrót po rozłączeniu, nieudany
+zapis, odrzucanie spóźnionych odpowiedzi i MIDI pomiędzy fragmentami SysEx.
+Testy blokują otwieranie fizycznych portów. Są to testy programowe,
+nie potwierdzenie ruchów fizycznych gałek ani feedbacku z pluginu.
+Kontrola uruchomienia EXE również symuluje Copy/Paste, Undo i zmianę nazwy
+bez otwierania MIDI; raport zawiera live_feedback_checked.
+
+WERSJA INSTALOWANA WINDOWS 0.5.11
+Docelowy instalator tej wersji: release/XL-View-Setup-0.5.11-x64.exe.
+Budowanie i sprawdzenie pakietu są osobnym etapem; opis zmian interfejsu
+nie potwierdza ukończenia instalatora.
+Wersja 0.5.11 dodaje zapamiętywaną opcję Preview changes before sending
+w Settings. Domyślnie jest wyłączona: Send rozpoczyna zapis od razu,
+z zachowaniem kopii i weryfikacji. Changes nadal otwiera ręczny podgląd.
+Wersja 0.5.10 zmniejsza wyświetlacz slotu i dodaje widoczne szczegóły MIDI
+kontrolki: typ, numer, kanał i interpretację wartości. Nazwa kontrolki zajmuje
+tylko potrzebną liczbę wierszy; układ kontrolera pozostaje bez zmian.
+Wersja 0.5.9 przenosi wysyłanie całego trybu na dół prawego panelu i zachowuje
+panel, zaznaczenie, rozmiary oraz przewinięcie po potwierdzonym zapisie.
+Zakończenie wysyłania przy otwartym panelu nie przełącza widoku na inny slot.
+Wersja 0.5.8 rozdziela lokalną edycję od odbioru MIDI. Poprawia Copy/Paste,
+Undo, powrót po rozłączeniu, obsługę niepełnego SysEx i diagnostykę feedbacku.
+W wersji 0.5.7 eksport otwartego trybu jest w Preset library obok importu,
+pod nazwą Export current mode…; uwzględnia lokalne zmiany.
+Od wersji 0.5.6 Undo edit jest w prawym górnym rogu obok Changes, a import pliku
+.syx znajduje się w Preset library jako Import mode from file….
+Od wersji 0.5.5 grupy edytuje się bezpośrednio w prawym panelu; Copy/Paste są w nim.
+Wybór grupy: Ctrl / Shift / Ctrl+Shift.
+W wersji 0.5.4 bank ma dwa pełne rzędy po osiem kafelków, w tym stały tryb 16 Default.
+W wersji 0.5.3 nazwa kontrolki i wartość MIDI są w wyświetlaczu slotu i trybu.
+W wersji 0.5.2 paski LED na przyciskach podglądu są wyśrodkowane w pionie i nieco szersze.
+Instalacja dla bieżącego użytkownika, bez wymagania administratora i Pythona.
+Program: %LOCALAPPDATA%\Programs\XL View.
+Biblioteka i backupy: %LOCALAPPDATA%\XL View\presets.
+Aktualizacja i odinstalowanie zachowują dane oraz preferencje użytkownika.
+Przenosząc bibliotekę z wersji portable, skopiuj zawartość jej katalogu presets
+(wraz z library i backups) do katalogu danych wersji instalowanej. Instalator
+nie zawiera prywatnych presetów. Nie uruchamiaj równocześnie obu wersji połączonych
+z tym samym kontrolerem. Plik instalatora nie jest podpisany cyfrowo.
+Budowanie: python installer/build_installer.py. Szczegóły: installer/BUILD.txt.
+Wersja portable zachowuje dotychczasową lokalizację danych.
+Analiza proponowanych funkcji i Androida: release/ROZWOJ-I-ANDROID.txt.
+
+WERYFIKACJA ROZSZERZENIA WINDOWS 0.5
+Przeszło 66 testów automatycznych bez zapisu do sprzętu. Ocena interfejsu: SHIP
+w zakresie sprawdzonych funkcji Windows 0.5, po usunięciu trzech zgłoszonych
+problemów. Jedenaście zrzutów .impeccable/review/v05-*.png obejmuje duże i małe
+okno, grupę, poprawną i odrzuconą edycję grupową, oba zakresy przeglądu wysyłania,
+ustawienia, diagnostykę, odzyskiwanie i pusty tryb. Są to dane testowe.
+Nie oznacza to pełnego testu fizycznego XL3, wszystkich typów komunikatów ani
+feedbacku z pluginu. Weryfikacja instalatora 0.5 jest osobnym etapem wydania;
+powyższa ocena nie potwierdza jego instalacji ani uruchomienia.
+
+WERYFIKACJA PASKA MIDI 0.5.1
+Przeszło 66 testów automatycznych. Ocena interfejsu: SHIP w zakresie przeniesienia
+obsługi połączenia na dolny pasek; poprawiono widoczność legendy wartości MIDI.
+Siedem zrzutów .impeccable/review/v051-*.png obejmuje duże i małe okno, edytor,
+okno połączenia, brak połączenia, łączenie i długi komunikat. To prezentacje
+na danych testowych, bez nowej weryfikacji sprzętu i bez zapisu do kontrolera.
+
+WERYFIKACJA BANKU 0.5.4
+Przeszło 67 testów automatycznych oraz 10 końcowych testów slotów. Pięć zrzutów
+.impeccable/review/v054-*.png pokazuje duże i małe okno, edytor, aktywny tryb
+Default i brak połączenia. Poprawiono uciętą etykietę wysyłania bez celu oraz
+możliwość zaznaczania wskaźnika 16; zrzuty wykonano ponownie. Końcowa ocena
+interfejsu pozostaje w toku. To dane testowe, bez nowego testu fizycznego XL3
+i bez zapisu do kontrolera. Weryfikacja instalatora jest osobnym etapem.
+Tryb 16 jest stały i nieedytowalny według instrukcji Novation:
+https://userguides.novationmusic.com/hc/en-gb/articles/26190535820562-Using-Custom-Modes-on-the-Launch-Control-XL-3
+
+WERYFIKACJA EDYCJI GRUPOWEJ 0.5.5
+Przeszło 70 testów automatycznych. Po końcowej poprawce ochrony edycji przeszło
+27 testów edytora oraz osobna próba myszy, suwaka, próbek koloru i wpisywania
+wartości Mixed. Ocena interfejsu: SHIP, bez zgłoszonych problemów.
+Osiem zrzutów .impeccable/review/v055-{wide,compact,single,group,edited,
+incompatible,buttons,unassigned}.png obejmuje prezentację na danych testowych.
+Nie wykonano nowego testu fizycznego XL3 ani zapisu do kontrolera.
+Weryfikacja pakietu i instalatora stanowi osobny etap wydania.
+
+WERYFIKACJA POLECEŃ 0.5.6
+Przeszły 23 testy workspace/slotów oraz próby capture_commands.py: Undo zachowuje
+grupę, anulowanie i błędny import zachowują tryb, poprawny import nie wysyła MIDI.
+Sześć zrzutów .impeccable/review/v056-{wide,compact,inspector,library,
+library-error,imported}.png obejmuje dane testowe. Po poprawce widoczności błędu
+importu końcowa ocena: SHIP w zakresie sprawdzonej poprawki, bez regresji na
+ponowionych zrzutach. Nie wykonano nowego testu fizycznego XL3 ani zapisu do niego.
+Końcowa weryfikacja pakietu i instalatora jest osobnym etapem wydania.
+
+WERYFIKACJA EKSPORTU 0.5.7
+Przeszły próby offline capture_export.py: ponowny odczyt wyeksportowanego pliku,
+zachowanie stanu trybu z chwili otwarcia biblioteki niezależnie od zaznaczenia
+jej listy i późniejszej zmiany, anulowanie, widoczny błąd zapisu, zachowanie
+niezapisanych zmian oraz nieaktywny eksport bez trybu. Siedem zrzutów
+.impeccable/review/v057-{wide,compact,inspector,library,exported,error,no-mode}.png
+obejmuje dane testowe. Przeszło też 12 testów instalacji/slotów. Zrzut błędu
+ponowiono po dodaniu angielskiej wskazówki naprawczej. Nie korzystano z MIDI
+ani nie wykonywano nowego testu
+fizycznego XL3. Końcowa ocena: SHIP w zakresie sprawdzonej poprawki komunikatu
+błędu eksportu, bez pozostałych zgłoszeń. Weryfikacja pakietu i instalatora
+stanowi osobny etap wydania.
+
+WERYFIKACJA WYSYŁANIA I PANELU 0.5.9
+Przeszło 39 testów panelu wysyłania, slotów i odbioru wartości MIDI.
+Kontrola uruchomienia ze źródeł potwierdziła zachowanie panelu po wysłaniu
+(send_preserves_inspector_checked) oraz live_feedback_checked.
+Siedem zrzutów .impeccable/review/v059-{wide,compact,single,group,sending,
+sent,offline}.png przedstawia syntetyczne stany offline. Stan wysyłania
+korzysta z symulowanego wykonawcy i tymczasowej biblioteki. Nie otwierano
+portów MIDI ani nie zapisywano fizycznego XL3. Końcowa ocena interfejsu: SHIP
+w zakresie tej poprawki wysyłania i panelu, bez istotnych zgłoszeń po ocenie
+wszystkich siedmiu poprawionych zrzutów. Weryfikacja pakietu i instalatora
+jest osobnym etapem.
+
+WERYFIKACJA WYŚWIETLACZA 0.5.10
+Przeszło 12 testów szczegółów MIDI, zawijania nazw, rozmiaru wyświetlacza,
+stałej siatki i niezależnego zaznaczenia edytora. Przykład BA-1 z dwuwierszową
+nazwą trybu ma wysokość 204 piksele zamiast wcześniejszych 229; dłuższe nazwy
+kontrolek mogą ją zwiększyć. Osiem zrzutów
+.impeccable/review/v0510-{wide,compact,display,inspector,long-name,relative,note,empty}.png
+przedstawia syntetyczne dane bez otwierania fizycznych portów MIDI.
+Kontrola uruchomienia ze źródeł 0.5.10 potwierdziła message_details_checked,
+send_preserves_inspector_checked i live_feedback_checked bez dostępu do MIDI.
+Końcowa ocena interfejsu pozostaje w toku. Nie jest to nowy test fizycznego XL3
+ani feedbacku z pluginu. Weryfikacja pakietu i instalatora jest osobnym etapem.
+
+WERYFIKACJA OPCJONALNEGO PRZEGLĄDU 0.5.11
+Przeszło 26 testów przeglądu, operacji roboczych i zachowania panelu wysyłania.
+Cztery natywne zrzuty offline
+.impeccable/review/v0511-{wide,compact,settings-off,settings-on}.png
+pokazują oba rozmiary okna oraz wyłączoną i włączoną opcję w Settings.
+Końcowa ocena interfejsu pozostaje w toku. Nie wykonano nowego testu
+fizycznego XL3 ani zapisu MIDI. Weryfikacja pakietu i instalatora
+jest osobnym etapem; historyczne wyniki zachowują swój pierwotny zakres.
+
+BIBLIOTEKA 0.6.0 — ZAKRES WERYFIKACJI
+Pełny zestaw 131 testów przeszedł. Osobny przebieg 14 testów biblioteki
+objął też dwa dodatkowe przypadki błędu archiwizacji i zachowania metadanych.
+Źródłowe i gotowe EXE przeszły --check-install, w tym preset_library_checked
+oraz kontrole feedbacku, inspektora, opcjonalnego podglądu i szczegółów.
+Zrzuty .impeccable/review/v060-{library,library-compact,version,importing,
+error,fixed-mode,empty,wide,compact}.png używają danych syntetycznych.
+Końcowy przegląd UI: ship; brak istotnych uwag dla rozszerzenia biblioteki.
+Testy blokują fizyczne porty MIDI; nie potwierdzają działania sprzętu.
+Instalator 0.6.0 jest osobną paczką. Nie zastąpiono zainstalowanej aplikacji
+w ramach testów. Aktualizacja portable zachowuje istniejący katalog presets.
+
+WYGLĄD ETYKIET 0.7.0 — WERYFIKACJA
+Przeszło 61 testów UI obejmujących etykiety, wyświetlacz, ustawienia podglądu,
+edytor, zaznaczenia i zachowanie panelu przy wysyłaniu. Źródła i gotowe EXE
+przeszły --check-install z label_appearance_checked i dotychczasowymi kontrolami.
+Końcowy przegląd UI: ship, bez istotnych uwag. Testy używają danych
+syntetycznych i nie otwierają fizycznych portów MIDI.

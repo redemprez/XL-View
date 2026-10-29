@@ -1,0 +1,24 @@
+BUILD XL VIEW 0.7.0 WINDOWS INSTALLER
+
+Use Windows x64, Python 3.11, and Inno Setup 6 installed in its default path.
+From the extracted source root:
+  python -m pip install -r installer/requirements-build.txt
+  python installer/build_installer.py
+
+Output: release/XL-View-Setup-0.7.0-x64.exe
+Checksums: release/SHA256SUMS.txt
+The payload is staged under release/payload and never replaces dist/XL View.
+No personal preset or backup folders are included. Do not add them to Files.
+
+Optional end-to-end test (only when no installed edition is registered):
+  python installer/test_installer.py
+This uses an isolated temp installation and then uninstalls it. The program
+check is offline; no MIDI device is opened. Test reports are in release/.
+
+Qt/PySide native libraries stay separate in _internal for replacement with
+ABI-compatible builds. The source archive includes the application code,
+installer scripts, icon sources and third-party notices. Matching Qt/PySide
+upstream source locations are in THIRD_PARTY_NOTICES.txt.
+
+This script builds an unsigned installer. Signing requires an appropriate
+publisher certificate and a separately configured signing step.

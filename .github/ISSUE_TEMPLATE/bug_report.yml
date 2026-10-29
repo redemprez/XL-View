@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a reproducible problem with XL View
+title: '[Bug] '
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: XL View version, Windows version, XL 3 firmware, other MIDI apps running.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the selected editing slot and active hardware mode if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics or screenshots
+      description: Optional. Remove personal information before uploading.

@@ -1,0 +1,30 @@
+XL View 0.7.0 - third-party runtime notices
+
+Python 3.11.0: Python Software Foundation License; see licenses/Python-LICENSE.txt.
+https://www.python.org/downloads/release/python-3110/
+
+Qt / PySide6 / Shiboken6 6.11.0: LGPL-3.0 option. Copyright The Qt Company Ltd.
+The native Qt and PySide libraries are separate dynamic libraries in _internal.
+They can be replaced with interface-compatible versions. No application EULA
+restricts reverse engineering needed to debug modifications to those libraries.
+See licenses/LGPL-3.0-only.txt and licenses/GPL-3.0-only.txt.
+Qt third-party component notices are included in licenses/qtbase/src/3rdparty/.
+Upstream source for the exact release:
+https://download.qt.io/official_releases/qt/6.11/6.11.0/submodules/
+https://code.qt.io/cgit/pyside/pyside-setup.git/tree/?h=v6.11.0
+https://code.qt.io/cgit/qt/qtbase.git/tree/?h=v6.11.0
+https://code.qt.io/cgit/qt/qtsvg.git/tree/?h=v6.11.0
+Application source and rebuilding instructions are supplied in the source ZIP.
+
+PyInstaller 6.19.0 bootloader: GPL with distribution exception;
+see licenses/PyInstaller-COPYING.txt.
+https://github.com/pyinstaller/pyinstaller/tree/v6.19.0
+
+Microsoft Visual C++ runtime DLLs are redistributed with the Qt/Python payload.
+They remain Microsoft components. Windows system ICU is not redistributed.
+
+Inno Setup packages the installer; its uninstaller and setup engine retain their
+embedded copyright notices. https://jrsoftware.org/
+
+XL View is independent of Novation and does not include Novation firmware,
+Components application code, third-party instrument plugins or personal presets.

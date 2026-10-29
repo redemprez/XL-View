@@ -1,0 +1,2 @@
+Installed edition: presets and backups are stored in %LOCALAPPDATA%\XL View\presets.
+The uninstaller preserves that folder and the user's settings.

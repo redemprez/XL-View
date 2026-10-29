@@ -1,0 +1,2 @@
+-r installer/requirements-build.txt
+pytest>=8,<10

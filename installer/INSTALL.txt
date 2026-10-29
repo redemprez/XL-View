@@ -1,0 +1,35 @@
+XL View 0.7.0 - Windows installer
+
+For Windows 10 version 2004 or later / Windows 11, x64.
+Python does not need to be installed. This build was tested on the author's
+Windows 11 environment; other computers and Windows on Arm remain untested.
+
+The application installs for the current user without administrator rights:
+  %LOCALAPPDATA%\Programs\XL View
+Start menu shortcut included; desktop shortcut optional.
+
+Presets and automatic slot backups are stored separately:
+  %LOCALAPPDATA%\XL View\presets
+Updates and uninstall preserve this folder and application preferences.
+No controller settings are sent by the installer.
+
+Moving from the portable version:
+Close XL View, copy the CONTENTS of the portable 'presets' folder into the
+installed edition's presets folder above. Keep the 'library' and 'backups'
+subfolders. Keep existing files if a copy conflict occurs. You can also import
+individual .syx files with Preset library > Import mode from file, then Save preset.
+The installer does not bundle your personal presets or backups.
+
+Keep one XL View instance connected to the controller at a time.
+USB MIDI ports may also be occupied by another application.
+
+This build is not digitally signed. Publisher identity is not verified by
+a code-signing certificate. The checksum file identifies this exact build.
+
+For an explicit offline installation check:
+  "XL View.exe" --check-install "C:\path\to\report.json"
+The check loads the native UI and tests local preset writing, without opening
+MIDI ports or changing your application preferences.
+
+XL View is an independent application and is not a Novation product.
+Third-party runtime notices are in THIRD_PARTY_NOTICES.txt and licenses/.

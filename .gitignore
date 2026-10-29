@@ -1,0 +1,39 @@
+# Local environments and Python outputs
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Generated applications, release payloads and local diagnostics
+build/
+dist/
+release/
+review/
+research/
+prototypes/
+.impeccable/
+capture_*.py
+verify_device_write.py
+Uruchom.vbs
+DESIGN.md
+DIRECTION.md
+PRODUCT.md
+
+# Personal library, backups, recovery drafts and settings
+presets/
+*.log
+*.tmp
+*.readback
+.env
+.env.*
+*.pem
+*.key
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Project fixtures in tests/fixtures are deliberately tracked.
